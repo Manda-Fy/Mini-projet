@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>NotAlone</title>
+    <style>
+        :root {
+            --primary: #b0435c;
+            --primary-light: #e06aa3;
+            --primary-dark: #8a3348;
+            --bg-deep: #09090c;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: var(--bg-deep);
+            display: flex; justify-content: center; align-items: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Arrière-plan décoratif pour le luxe */
+        body::before {
+            content: ""; position: absolute; width: 300px; height: 300px;
+            background: var(--primary); filter: blur(150px);
+            top: -50px; left: -50px; opacity: 0.2; pointer-events: none;
+        }
+
+        /* Le Téléphone */
+        .phone {
+            width: 350px;
+            height: 680px;
+            background: #111116;
+            border-radius: 50px;
+            padding: 30px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.9), inset 0 0 20px rgba(255,255,255,0.02);
+            position: relative;
+            border: 1px solid var(--glass-border);
+            display: flex; flex-direction: column;
+            animation: appAppear 1s ease-out;
+        }
+
+        @keyframes appAppear {
+            from { opacity: 0; transform: scale(0.9) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Header Incliné Premium */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            width: 90%;
+            padding: 25px;
+            border-radius: 24px;
+            position: relative;
+            left: -15px;
+            margin-bottom: 40px;
+            box-shadow: 15px 15px 40px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+
+        /* Reflet brillant sur le header */
+        .header::after {
+            content: ""; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg); animation: shine 4s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .header h1 {
+            transform: skewX(-7deg);
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Contenu */
+        .content h2 {
+            font-size: 26px;
+            margin-bottom: 10px;
+            background: linear-gradient(to bottom, #fff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #88889b;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* Carte avec effet Glassmorphism */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 22px;
+            font-size: 15px;
+            line-height: 1.8;
+            color: #d1d1e0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(176, 67, 92, 0.4);
+        }
+
+        /* Bouton Premium avec Animation Pulse */
+        .btn {
+            position: absolute;
+            bottom: 40px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 16px 32px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(176, 67, 92, 0.4);
+        }
+
+        .btn a {
+            text-decoration: none;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(176, 67, 92, 0.6);
+            filter: brightness(1.1);
+        }
+
+        /* Micro-bulles décoratives en fond */
+        .decoration {
+            position: absolute; width: 60px; height: 60px;
+            border-radius: 50%; background: var(--primary);
+            filter: blur(40px); opacity: 0.15; bottom: 20%; left: 10%;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="phone">
+        <div class="decoration"></div>
+        <div class="header">
+            <h1>NotAlone</h1>
+        </div>
+
+        <div class="content">
+            <h2>Bienvenue,</h2>
+            <p class="subtitle">Ici, tes mots restent en sécurité. Prends un instant pour respirer avant de commencer.</p>
+            
+            <div class="card">
+                "Parfois, le simple fait d'exprimer ce que l'on ressent suffit à alléger le cœur. Je suis là pour t'écouter, sans jugement, à n'importe quelle heure."
+            </div>
+        </div>
+
+        <button class="btn">
+            <a href="saisie.html">Commencer →</a>
+        </button>
+    </div>
+
+</body>
+</html>

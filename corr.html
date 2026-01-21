@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>NotAlone – Résultat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="corr.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="phone">
+    <div style="position: absolute; width: 150px; height: 150px; background: #b0435c; filter: blur(80px); opacity: 0.1; top: -20px; right: -20px; pointer-events: none;"></div>
+
+    <div class="content">
+
+        <div id="viewMatch" class="result hidden">
+            <h1 class="status-tag">Résonance trouvée</h1>
+            <p class="subtitle">Une personne partage des émotions similaires aux tiennes.</p>
+            
+            <div class="profile-card">
+                <div class="profile-pic"></div>
+                <div class="profile-info">
+                    <span style="font-size: 11px; text-transform: uppercase; color: #e06aa3; letter-spacing: 1px;">Profil Confidentiel</span>
+                    <p style="margin-top: 10px; font-style: italic; color: #d1d1e0;">"Cette personne traverse un chemin qui fait écho au tien."</p>
+                </div>
+            </div>
+
+            <div class="action-stack">
+                <button class="btn btn-primary" id="continueBtn">Échanger avec elle</button>
+                <button onclick="window.location.href='chatbot.html'" class="btn btn-outline">Besoin de parler d'abord ?</button>
+            </div>
+        </div>
+
+        <div id="viewNoMatch" class="result hidden">
+            <div class="icon-eco">
+                <div class="pulse-soft"></div>
+            </div>
+
+            <h2>Un moment pour soi</h2>
+            <p class="message-zen">
+                Chaque parcours est unique. Pour l'instant, personne ne partage exactement la même situation, mais tu n'es pas seul.
+            </p>
+            
+            <div class="notification-box">
+                <div class="bell-icon"></div>
+                <p>Ta situation a été enregistrée. Dès qu'une personne dans la même situation est trouvée, <strong>tu en seras immédiatement prévenu.</strong></p>
+            </div>
+
+            <div class="card-advice">
+                "Mettre des mots sur ses émotions est déjà une immense victoire."
+            </div>
+
+            <div class="action-stack">
+                <button onclick="window.location.href='chatbot.html'" class="btn btn-primary">Parler à NotAlone</button>
+                <button onclick="window.location.href='page2.html'" class="btn btn-outline">Modifier ma description</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Récupération de l'état de la correspondance (true/false)
+        const success = localStorage.getItem('matchResult') === 'true'; 
+
+        const viewMatch = document.getElementById('viewMatch');
+        const viewNoMatch = document.getElementById('viewNoMatch');
+
+        if (success) {
+            viewMatch.classList.remove('hidden');
+        } else {
+            viewNoMatch.classList.remove('hidden');
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NotAlone - Ton Espace de Confiance</title>
+<style>
+  :root {
+    --bg: #09090c;
+    --app-bg: rgba(22, 22, 29, 0.8);
+    --rose-grad: linear-gradient(135deg, #b64c70 0%, #8e3a59 100%);
+    --bot-bubble: rgba(40, 40, 55, 0.7);
+    --text: #f0f0f5;
+    --accent: #e06aa3;
+    --glass-border: rgba(255, 255, 255, 0.08);
+  }{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body { margin: 0; font-family: 'Inter', -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; position: relative; }
+body::before { content: ""; position: absolute; width: 300px; height: 300px; background: #b64c70; filter: blur(120px); top: -50px; left: -50px; opacity: 0.15; animation: orbit 20s infinite linear; }
+@keyframes orbit { 0% { transform: translate(0, 0); } 50% { transform: translate(100vw, 50vh); } 100% { transform: translate(0, 0); } }
+.app { width: 100%; max-width: 420px; height: 90vh; border-radius: 45px; background: var(--app-bg); backdrop-filter: blur(25px); box-shadow: 0 40px 100px rgba(0,0,0,0.8); display: flex; flex-direction: column; border: 1px solid var(--glass-border); position: relative; z-index: 10; animation: appEntrance 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+@keyframes appEntrance { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.header { padding: 30px 20px 20px; text-align: center; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.15); } .header h1 { font-size: 1.4rem; margin: 0; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; } .status { font-size: 0.75rem; color: #4caf50; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 6px; opacity: 0.9; } .status::before { content: ""; width: 8px; height: 8px; background: #4caf50; border-radius: 50%; box-shadow: 0 0 12px #4caf50; animation: pulseStatus 2s infinite; }
+@keyframes pulseStatus { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
+.chat-area { flex: 1; overflow-y: auto; padding: 25px 20px; display: flex; flex-direction: column; gap: 18px; scroll-behavior: smooth; } .chat-area::-webkit-scrollbar { display: none; }
+.bubble { max-width: 85%; padding: 14px 20px; font-size: 0.95rem; line-height: 1.5; animation: bubbleIn 0.5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+@keyframes bubbleIn { from { opacity: 0; transform: translateY(10px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.bubble.bot { align-self: flex-start; background: var(--bot-bubble); backdrop-filter: blur(10px); border-radius: 22px 22px 22px 4px; border: 1px solid rgba(255,255,255,0.05); }
+.bubble.user { align-self: flex-end; background: var(--rose-grad); color: white; border-radius: 22px 22px 4px 22px; box-shadow: 0 8px 25px rgba(182, 76, 112, 0.25); }
+.typing { display: flex; gap: 6px; padding: 18px 24px !important; } .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: blink 1.4s infinite both; } .dot:nth-child(2) { animation-delay: 0.2s; } .dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+.chat-input-container { padding: 20px 25px 30px; background: linear-gradient(to top, rgba(0,0,0,0.3), transparent); }
+.chat-input-wrapper { display: flex; gap: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 30px; padding: 8px 8px 8px 20px; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+.chat-input-wrapper:focus-within { border-color: var(--accent); background: rgba(255, 255, 255, 0.08); box-shadow: 0 0 20px rgba(224, 106, 163, 0.15); }
+.chat-input-wrapper input { flex: 1; background: transparent; border: none; color: white; outline: none; font-size: 0.95rem; padding: 10px 0; }
+.send-btn { background: var(--rose-grad); border: none; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+.send-btn:hover { transform: scale(1.1) rotate(-10deg); filter: brightness(1.2); } .send-btn:active { transform: scale(0.9); } </style>
+</head>
+<body><div class="app">
+  <div class="header">
+    <h1>NotAlone</h1>
+    <div class="status">À ton écoute</div>
+  </div>  <div class="chat-area" id="chatArea"></div>  <div class="chat-input-container">
+    <div class="chat-input-wrapper">
+      <input id="chatInput" placeholder="Confie-toi ici..." onkeypress="if(event.key === 'Enter') sendMessage()" autocomplete="off" />
+      <button class="send-btn" onclick="sendMessage()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+</div><script>
+
+const chatArea = document.getElementById('chatArea');
+const memory = { history: [] };
+const userProfile = { name: null, askedName: false, greeted: false };
+
+const lexicon = {
+  tristesse: ['triste','déprim','mal','seul','vide','pleure','solitude','abandon','désespér'],
+  colere: ['colèr','énerv','rage','furieux','haine','irrité','fâch'],
+  angoisse: ['angoiss','stress','panique','peur','inquiét','anxiété'],
+  joie: ['heureux','content','génial','super','ravi','joie','trop bien','kiff'],
+  fatigue: ['fatigué','épuisé','crevé','lessivé','lassé','usé'],
+};
+
+const metaphors = [
+  "Parfois, la tristesse ressemble à un ciel gris : elle finit toujours par se dissiper… mais pas toujours quand on veut.",
+  "Ton cœur est comme un vieux téléphone : parfois il bug, mais ça ne veut pas dire qu’il est cassé.",
+  "Les émotions sont comme la météo : elles changent, même si on n’en a pas envie.",
+  "Tu es comme une plante : tu as besoin d’eau, de lumière, et parfois juste de silence."
+];
+
+const jokes = [
+  "Je suis un bot, mais je promets que je ne te juge pas… même si tu m’écris en 2 mots.",
+  "Si les problèmes avaient des pieds, ils courraient moins vite que tes pensées.",
+  "Je suis là pour toi. Et je ne mange pas tes données, promis.",
+  "Si on pouvait envoyer les soucis au recyclage… je pense qu’on serait déjà millionnaires."
+];
+
+const styleBank = {
+  tristesse: {
+    tone: "doux",
+    pace: "lent",
+    humor: 0.05,
+    metaphor: 0.55
+  },
+  colere: {
+    tone: "calme",
+    pace: "posé",
+    humor: 0.1,
+    metaphor: 0.2
+  },
+  angoisse: {
+    tone: "rassurant",
+    pace: "lent",
+    humor: 0.05,
+    metaphor: 0.35
+  },
+  joie: {
+    tone: "énergique",
+    pace: "rapide",
+    humor: 0.4,
+    metaphor: 0.15
+  },
+  fatigue: {
+    tone: "reposant",
+    pace: "lent",
+    humor: 0.05,
+    metaphor: 0.25
+  },
+  neutre: {
+    tone: "normal",
+    pace: "normal",
+    humor: 0.15,
+    metaphor: 0.15
+  }
+};
+
+const responseBank = {
+  salutations: [
+    "Bonjour. Tu peux tout me dire, je t’écoute.",
+    "Salut. Raconte-moi ce qui te traverse l’esprit.",
+    "Coucou. Ici, pas de jugement — juste une oreille."
+  ],
+  suicide_safe: [
+    "Je prends ce que tu dis très au sérieux. Tu n'es pas seul. Si tu es en danger, contacte le 3114 (en France) ou les secours."
+  ],
+  tristesse: [
+    "Je suis vraiment désolé que tu te sentes comme ça.",
+    "Ça a l’air lourd à porter… tu n’es pas obligé(e) de tout porter seul(e).",
+    "Je suis là, et je t’écoute, sans jugement."
+  ],
+  colere: [
+    "Je sens que ça te met en colère, et c’est légitime.",
+    "Tu as le droit d’être en colère, surtout si tu as été blessé(e).",
+    "Respire un coup. On peut en parler calmement, à ton rythme."
+  ],
+  angoisse: [
+    "Je comprends, l’angoisse peut être très envahissante.",
+    "Tu n’es pas en train de “craquer”, tu traverses une tempête.",
+    "Si tu veux, on peut faire une petite technique de respiration ensemble."
+  ],
+  joie: [
+    "Ça fait plaisir à entendre !",
+    "Je suis content pour toi, vraiment.",
+    "Continue comme ça, et savoure ce moment."
+  ],
+  fatigue: [
+    "Tu as l’air épuisé(e). Tu devrais peut-être te reposer un peu.",
+    "Tu as déjà fait beaucoup. Ton corps a besoin de calme.",
+    "Même une petite pause peut faire une grosse différence."
+  ]
+};
+
+const humanTouch = {
+  validation: [
+    "C'est tout à fait normal de ressentir ça.",
+    "Je comprends, c'est courageux de le formuler.",
+    "Merci de partager ça avec moi, je t'écoute.",
+    "C'est un sentiment pesant, mais tu as le droit de le ressentir."
+  ],
+  relance: [
+    "Veux-tu m'expliquer ce qui a déclenché ça ?",
+    "Qu'est-ce qui t'aiderait à te sentir un peu plus apaisé(e) là maintenant ?",
+    "Je suis là pour toi. Prends ton temps pour écrire.",
+    "Est-ce que c'est une sensation nouvelle ou c'est là depuis un moment ?"
+  ]
+};
+
+function appendBubble(text, who, isTyping = false) {
+  const b = document.createElement('div');
+  b.className = `bubble ${who} ${isTyping ? 'typing' : ''}`;
+  if (isTyping) {
+    b.id = "typingIndicator";
+    b.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+  } else {
+    b.innerHTML = text.replace(/\n/g, '<br>');
+  }
+  chatArea.appendChild(b);
+  chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: 'smooth' });
+  return b;
+}
+
+function updateProfile(text) {
+  const match = text.match(/je m'appelle ([a-zA-ZÀ-ÿ]+)/i) || text.match(/mon nom est ([a-zA-ZÀ-ÿ]+)/i);
+  if (match) userProfile.name = match[1];
+}
+
+function analyzeEmotion(text) {
+  const t = text.toLowerCase();
+  for (const [emo, words] of Object.entries(lexicon)) {
+    if (words.some(w => t.includes(w))) return emo;
+  }
+  return 'neutre';
+}
+
+function addToMemory(from, text) {
+  memory.history.push({ from, text });
+  if (memory.history.length > 12) memory.history.shift();
+}
+
+function getContextHint() {
+  const last = memory.history.slice().reverse().find(m => m.from === 'user');
+  if (!last) return "";
+  if (/je vais mieux|ça va mieux|je me sens mieux/i.test(last.text)) return "Je suis content que tu ailles mieux.";
+  if (/je me sens mal|je suis triste|je suis déprim/i.test(last.text)) return "Tu m'as dit que tu te sentais mal récemment.";
+  return "";
+}
+
+function shouldUseMetaphor(style) {
+  return Math.random() < style.metaphor;
+}
+
+function shouldUseJoke(style) {
+  return Math.random() < style.humor;
+}
+
+function composeReply(userText) {
+  updateProfile(userText);
+  addToMemory('user', userText);
+
+  // 1) si le nom n'est pas encore demandé
+  if (!userProfile.askedName) {
+    userProfile.askedName = true;
+    return "Avant qu'on continue… comment veux-tu que je t'appelle ?";
+  }
+
+  // 2) si le nom vient d'être donné
+  if (userProfile.askedName && !userProfile.greeted && userProfile.name) {
+    userProfile.greeted = true;
+    const enchantedReplies = [
+      `Oh, ${userProfile.name}… j’aime bien ce pseudo.`,
+      `Ah, ${userProfile.name}… ça sonne bien.`,
+      `Hmm… ${userProfile.name}, ça a une bonne vibe.`
+    ];
+    return enchantedReplies[Math.floor(Math.random()*enchantedReplies.length)];
+  }
+
+  // 3) détection suicide
+  if (/suicide|mourir|me tuer|finir avec ma vie|je veux mourir/i.test(userText)) {
+    return responseBank.suicide_safe[0];
+  }
+
+  // 4) réponse normale
+  const emotion = analyzeEmotion(userText);
+  const style = styleBank[emotion];
+  const nameTag = userProfile.name ? `${userProfile.name}, ` : "";
+  const contextHint = getContextHint();
+  const validation = humanTouch.validation[Math.floor(Math.random()*humanTouch.validation.length)];
+  const relance = humanTouch.relance[Math.floor(Math.random()*humanTouch.relance.length)];
+  const emoResponses = responseBank[emotion];
+  const emoReply = emoResponses ? emoResponses[Math.floor(Math.random()*emoResponses.length)] : "";
+
+  let special = "";
+  if (shouldUseMetaphor(style)) special = metaphors[Math.floor(Math.random()*metaphors.length)];
+  else if (shouldUseJoke(style)) special = jokes[Math.floor(Math.random()*jokes.length)];
+
+  const parts = [
+    special,
+    emoReply,
+    validation,
+    contextHint,
+    `${nameTag}${relance}`
+  ].filter(Boolean);
+
+  return parts.join("\n\n");
+}
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  appendBubble(text, 'user');
+  input.value = '';
+
+  const indicator = appendBubble('', 'bot', true);
+  setTimeout(() => {
+    indicator.remove();
+    const reply = composeReply(text);
+    appendBubble(reply, 'bot');
+  }, 1000);
+}
+
+setTimeout(() => appendBubble(responseBank.salutations[0], 'bot'), 700);
+</script></body></html>
