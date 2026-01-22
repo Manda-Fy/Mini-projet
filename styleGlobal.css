@@ -5,6 +5,43 @@
     --text-dim: #708075;
     --glass: rgba(255, 255, 255, 0.4);
 }
+.brand-name{
+    padding-left: 50px;
+}
+.navbar{
+   display: flex;             
+    justify-content: space-between; 
+    align-items: center;      
+    width: 100%;            
+    box-sizing: border-box;   
+    position:fixed;        
+    top: 0;
+    border: 10px;
+     background: var(--glass);         
+    backdrop-filter: blur(10px);        
+    -webkit-backdrop-filter: blur(15px);
+    
+
+}
+
+a{
+    color: #7DC2A5;
+    text-decoration: none;
+    font-weight: 1000;
+    background: var(--glass);         
+    backdrop-filter: blur(50px);        
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 50px;
+    padding: 10px;
+    
+}
+a:hover{
+    background: rgba(255, 255, 255, 0.8); /* Devient plus opaque au survol */
+    transform: translateY(-3px);          /* Monte légèrement comme tes cartes */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
 
 body {
     background-color: var(--bg-page);
@@ -16,7 +53,6 @@ body {
     flex-direction: column;
     align-items: center;
 }
-
 /* Un fond organique pour que le site ne soit pas "plat" */
 .blob-bg {
     position: fixed;
@@ -29,19 +65,13 @@ body {
 .canvas {
     max-width: 1000px;
     width: 90%;
-    padding: 80px 0;
+    padding: 150px 0;
     text-align: center;
 }
 
 .hero { margin-bottom: 80px; }
 
-.brand-name {
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    color: var(--primary);
-    margin-bottom: 20px;
-}
+
 
 #welcome-title {
     font-size: 3rem;
