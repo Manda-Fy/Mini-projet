@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>NotAlone — Respire</title>
     <link rel="stylesheet" href="styleGlobal.css">
+    <link rel="script" href="script.js">
 </head>
 <body>
 <header class="navbar">
@@ -16,27 +17,16 @@
     <div class="blob-bg"></div>
     <main class="canvas">
         <header class="hero">
-            <h2 id="welcome-title">Heureux de te voir.</h2>
-            <p id="welcome-msg" class="human-text">Tu vois que tu es bon, tu es revenu pour t'occuper de toi et ça c'est une réussite.</p>
+            <h2 id="welcome-title"> Tes defis du jours t'attend juste là </h2>
+            <p id="welcome-msg" class="human-text"></p>
         </header>
 
 
 <!-------------------------------------------------Les cartes ---------------------------------------------------------------------------------------------------------------------------->
-        <section class="action-row">
-            <div class="glass-card" onclick="startBreathing()">
-                <span class="emoji">🌿</span>
-                <h3>Pause Respiration</h3>
-            </div>
-            <div class="glass-card active" onclick="showChallenge()">
+            <div class="glass-card" onclick="showChallenge()">
                 <span class="emoji">🎯</span>
                 <h3>Le Défi du Jour</h3>
             </div>
-            <div class="glass-card" onclick="addGratitude()">
-                <span class="emoji">✨</span>
-                <h3>Note de Joie</h3>
-            </div>
-        </section>
-
 <!-----------------------------------------------------------Les accomplissements------------------------------------------------------------------------------------->
         <div id="dynamic-zone" class="floating-content">
             <p id="dynamic-text"></p>

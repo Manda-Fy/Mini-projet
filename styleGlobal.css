@@ -87,20 +87,14 @@ body {
     line-height: 1.6;
 }
 
-/* Cartes qui "flottent" sans cadre lourd */
-.action-row {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-bottom: 60px;
-}
 
-.glass-card {
+.glass-card{
+    margin: 0 auto;
+    width: 200px;
+    padding: 20px;
+    border-radius: 50px;
     background: var(--glass);
     backdrop-filter: blur(10px);
-    padding: 40px 20px;
-    width: 200px;
-    border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
