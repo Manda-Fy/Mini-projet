@@ -2,7 +2,6 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-analytics.js";
 const firebaseConfig = {
   apiKey: "AIzaSyB3E2pu2CLs7z5TpmCcComb5_s10CnGxR0",
   authDomain: "miniprojet-15888.firebaseapp.com",
@@ -22,7 +21,7 @@ const db = getFirestore(app);
 
 function showChallenge(){
 
- defis = " Ton Defis : "
+ const defis = " Ton Defis : "
    //mettez le defis du jours ici//
    const NouveauDefisDuJour = ["Dit bonjour à un inconnu", "Écris une chose positive sur ta journée"];
 
@@ -36,3 +35,4 @@ function showChallenge(){
     Affichage.textContent= defis + NouveauDefisDuJour[index];
   
 }
+window.showChallenge = showChallenge;
