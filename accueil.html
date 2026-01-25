@@ -9,13 +9,18 @@
    
 </head>
 <body>
-<header class="navbar">
-     <h1 class="brand-name">NotAlone</h1>
-     <a href = "Forum.html" > Joue avec la communauté</a>
-</header>
+<div id="view-accueil">
+
+ <nav class="navbar">
+     <div class="nav-container">
+        <h1 class="brand-name">NotAlone</h1>
+        <a href="#" id="btn-communaute" class="nav-link">Joue avec la communauté</a>
+     </div>
+ </nav>
+
 
 <!------------------------------------------------Le titre--------------------------------------------------------------------------------------->
-    <div class="blob-bg"></div>
+ <div class="blob-bg"></div>
     <main class="canvas">
         <header class="hero">
             <h2 id="welcome-title"> Tes defis du jours t'attend juste là </h2>
@@ -40,8 +45,28 @@
             <span class="separator">|</span>
             <span>🌟 <b><span id="tasks-count"></span></b> victoires</span>
         </footer>
-    </main>
 
+    </main>
+</div>
+<div id="view-chat" style="display: none;">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">Communauter - A -</div>
+            <div class="channel active"> général</div>
+            <div class="channel"> privé</div>
+        </aside>
+
+        <main class="chat-window">
+            <div id="messages-display" class="messages-container">
+                </div>
+            
+            <div class="input-area">
+                <input type="text" id="msg-input" placeholder="Écris ton message ici...">
+                <button id="send-btn">Envoyer</button>
+            </div>
+        </main>
+    </div>
+</div>
 
 
   
