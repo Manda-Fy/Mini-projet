@@ -91,7 +91,7 @@ body {
 .glass-card{
     margin: 0 auto;
     width: 200px;
-    padding: 20px;
+    padding: 30px;
     border-radius: 50px;
     background: var(--glass);
     backdrop-filter: blur(10px);
