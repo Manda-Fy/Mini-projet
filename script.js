@@ -17,22 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Fonction pour envoyer un message de test
-async function envoyerTest() {
-  try {
-    const docRef = await addDoc(collection(db, "messages"), {
-      texte: "Salut l'équipe !",
-      date: new Date()
-    });
-    console.log("Message envoyé avec l'ID : ", docRef.id);
-    alert("Connexion réussie ! Le message est dans Firebase.");
-  } catch (e) {
-    console.error("Erreur d'ajout : ", e);
-  }
-}
 
-// Appelle la fonction pour tester tout de suite au chargement
-envoyerTest();
 
 
 function showChallenge(){
