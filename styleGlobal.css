@@ -135,7 +135,7 @@ body {
 .app-container {
     display: flex;
     height: 100vh;
-    background: #1a1a1a; /* Couleur sombre style Discord */
+    background: #1a1a1a; 
     color: white;
 }
 
