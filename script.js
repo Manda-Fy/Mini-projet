@@ -40,10 +40,17 @@ window.showChallenge = showChallenge;
 const btnCommunaute = document.getElementById('btn-communaute');
 const viewAccueil = document.getElementById('view-accueil');
 const viewChat = document.getElementById('view-chat');
+const btnRetour = document.getElementById('btn-return');
 
 btnCommunaute.addEventListener('click', (e) => {
-    e.preventDefault(); // Empêche de changer de page
-    viewAccueil.style.display = 'none'; // Cache l'accueil
-    viewChat.style.display = 'flex';   // Montre le chat
+    e.preventDefault(); 
+    viewAccueil.style.display = 'none'; 
+    viewChat.style.display = 'flex';   
     console.log("Bienvenue dans le salon !");
+});
+
+
+btnRetour.addEventListener('click', (e) => {
+  viewChat.style.display = 'none';
+  viewAccueil.style.display = 'flex';
 });
