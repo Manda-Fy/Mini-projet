@@ -1,7 +1,7 @@
 
-
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+import { onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyB3E2pu2CLs7z5TpmCcComb5_s10CnGxR0",
   authDomain: "miniprojet-15888.firebaseapp.com",
@@ -53,4 +53,55 @@ btnCommunaute.addEventListener('click', (e) => {
 btnRetour.addEventListener('click', (e) => {
   viewChat.style.display = 'none';
   viewAccueil.style.display = 'flex';
+});
+
+async function envoyerMessage() {
+    const input = document.getElementById('msg-input');
+    const texte = input.value.trim();
+    if (texte !== "") {
+        try {
+            
+            await addDoc(collection(db, "messages"), {
+                contenu: texte,
+                date: serverTimestamp(),
+                auteur: "Anonyme"        
+            });
+            input.value = ""; 
+            console.log("Message envoyé !");
+        } catch (erreur) {
+            console.error("Erreur d'envoi : ", erreur);
+        }
+    }
+}
+document.getElementById('send-btn').addEventListener('click', envoyerMessage);
+
+// Optionnel : Envoyer aussi avec la touche "Entrée"
+document.getElementById('msg-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') envoyerMessage();
+});
+const q = query(collection(db, "messages"), orderBy("date", "asc"));
+
+// 2. On écoute cette requête en temps réel
+onSnapshot(q, (snapshot) => {
+    const messagesDisplay = document.getElementById('messages-display');
+    messagesDisplay.innerHTML = ""; // On vide l'écran pour tout redessiner proprement
+
+    snapshot.forEach((doc) => {
+        const message = doc.data();
+        
+        // 3. Création visuelle du message (Le DOM)
+        const divMessage = document.createElement('div');
+        divMessage.classList.add('message-bulle'); // On pourra styliser cette classe en CSS
+        
+        // On remplit le contenu
+        divMessage.innerHTML = `
+            <span class="auteur">${message.auteur}</span>
+            <p class="texte">${message.contenu}</p>
+        `;
+        
+        messagesDisplay.appendChild(divMessage);
+    });
+
+    // 4. Scroll automatique vers le bas pour voir le dernier message
+    messagesDisplay.scrollTop = messagesDisplay.scrollHeight;
 });
